@@ -6,18 +6,34 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Repository("adminDAO")
 public class AdminDAOImpl implements IAdminDAO {
     @Autowired
     SqlSessionFactory sqlSessionFactoryBean;
     @Override
-    public List<Map> findAllUsers() {
-        SqlSession sqlSession = sqlSessionFactoryBean.openSession(true);
-        String sql = "com.qian.mapper.Admin.findAllUsers";
-        List<Map> list = sqlSession.selectList(sql);
-        return list;
+    public List<Map<String, Object>> findAllUsers(Integer page, Integer limit) {
+        try {
+            SqlSession sqlSession = sqlSessionFactoryBean.openSession();
+            String sql = "com.qian.mapper.Admin.findAllUsers";
+            String sql_count = "com.qian.Admin.findRSCount";
+            Map map = new HashMap();
+            map.put("page", (page - 1) * limit);
+            map.put("limit", limit);
+            System.out.println(map);
+            List<Map<String, Object>> objects = sqlSession.selectList(sql, map);
+            System.out.println(objects);
+            Map<String, Object> rscount = sqlSession.selectOne(sql_count, map);
+            objects.add(rscount);
+            return objects;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

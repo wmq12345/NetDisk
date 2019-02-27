@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface IAdminService {
-    List<Map> findAllUsers();
+    List<Map<String, Object>> findAllUsers(Integer page, Integer limit);
 }
