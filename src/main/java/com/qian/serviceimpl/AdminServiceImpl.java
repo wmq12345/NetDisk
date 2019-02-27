@@ -13,7 +13,8 @@ public class AdminServiceImpl implements IAdminService {
     @Autowired
     IAdminDAO adminDAO;
     @Override
-    public List<Map> findAllUsers() {
-        return adminDAO.findAllUsers();
+    public List<Map<String, Object>> findAllUsers(Integer page, Integer limit) {
+        return adminDAO.findAllUsers(page,limit);
     }
+
 }

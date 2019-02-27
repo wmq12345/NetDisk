@@ -71,6 +71,7 @@
                         {
                             field: "file_type", title: "文件类型",width:150,
                             templet: function (row) {
+                                alert(row);
                                 if (row.file_type == "文件夹") {
                                     return "<span style='color:#009688' class='layui-icon layui-icon-list'></span> " + row.file_type;
                                 } else {

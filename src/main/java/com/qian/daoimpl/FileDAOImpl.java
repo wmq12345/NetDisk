@@ -27,9 +27,7 @@ public class FileDAOImpl implements IFileDAO {
         map.put("limit", limit);
         map.put("fileType",fileType);
         map.put("isShare",isShare);
-            System.out.println(map);
         List<Map<String, Object>> objects = sqlSession.selectList(sql, map);
-            System.out.println(objects);
         Map<String, Object> rscount = sqlSession.selectOne(sql_count, map);
         objects.add(rscount);
         return objects;
