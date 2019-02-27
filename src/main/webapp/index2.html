@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>云盘登录</title>
+    <link rel="stylesheet" href="node_modules/layui-src/dist/css/layui.css">
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/layui-src/dist/layui.all.js"></script>
+    <script>
+        $(function () {
+            var height = document.body.scrollHeight;
+            var logo_warp = document.getElementById("loginDiv");
+            var margin_top = (height - 100) / 2;
+            logo_warp.style.marginTop = margin_top + "px";
+        });
+
+        function loginValidate() {
+            var uname = $("#uname").val();
+            if (uname.length == 0) {
+                layer.tips("用户名不能为空!", "#uname", {
+                    tips: [2, "#000000"],
+                    time: 2000
+                });
+                return;
+            }
+            var upwd = $("#upwd").val();
+            if (upwd.length == 0) {
+                layer.tips("密码不能为空!", "#uname", {
+                    tips: [2, "#000000"],
+                    time: 2000
+                });
+                return;
+            }
+            $.ajax({
+                url: "login.do",
+                method: "get",
+                data: $("#loginForm").serialize(),
+                success: function (result) {
+                    var jsonObj = JSON.parse(result);
+                    if (jsonObj.loginmsg != 0) {
+                        sessionStorage.setItem("uname", uname);
+                        sessionStorage.setItem("user_id", jsonObj.userid);
+                        sessionStorage.setItem("photo", jsonObj.photo);
+                        if (jsonObj.isAdmin == 1) {
+                            window.location.href = "admin.html";
+                        }else{
+                            window.location.href = "adminManager.html";
+                        }
+                    } else {
+                        layer.msg("登录失败,请重试");
+                    }
+                }, error: function () {
+                    layer.alert("连接服务器未成功");
+                }
+            })
+        }
+        function registerValidate() {
+            alert($("#registerForm").serialize());
+            $.ajax({
+                url: "http://localhost:8080/test/register.do",
+                method: "post",
+                data: $("#registerForm").serialize(),
+                success: function (result) {
+                    if (result == 1) {
+                        window.location.href = "index2.html";
+                    } else {
+                        layer.msg("注册失败,请重试");
+                    }
+                }, error: function () {
+                    layer.alert("连接服务未成功");
+                }
+            })
+        }
+    </script>
+
+</head>
+<body class="layui-bg-gray">
+<div class="layui-fluid" id="loginDiv" align="center" style="width: 35%">
+    <div class="layui-card">
+        <div class="layui-card-header">网络云盘</div>
+        <div class="layui-card-body">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">登录</li>
+                    <li>注册</li>
+                </ul>
+                <div class="layui-tab-content" style="height: 250px">
+                    <div class="layui-tab-item layui-show">
+                        <form id="loginForm" class="layui-form" method="post">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">用户名</label>
+                                <div class="layui-input-block">
+                                    <input id="uname" name="uname" type="text" class="layui-input" placeholder="请输入用户名">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">密&nbsp;&nbsp;&nbsp;码</label>
+                                <div class="layui-input-block">
+                                    <input id="upwd" name="upwd" type="password" class="layui-input"
+                                           placeholder="请输入密码">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">验证码</label>
+                                <div class="layui-input-block">
+                                    <input id="vocode" type="password" class="layui-input" placeholder="字母数字组合"
+                                           style="display: inline;width: 40%">
+                                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:resetCode()">
+                                        <canvas width="150" height="37" id="verifyCanvas"></canvas>
+                                        <img id="img_vcode" alt="4位验证码"></a>
+                                </div>
+
+                            </div>
+                            <div class="layui-form-item">
+                                <a href="javascript:loginValidate()" class="layui-btn layui-btn-fluid">登录</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">
+                        <form id="registerForm" class="layui-form" method="post">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">用户名</label>
+                                <div class="layui-input-block">
+                                    <input id="reg_uname" name="uname" type="text" class="layui-input"
+                                           placeholder="请输入用户名">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">密&nbsp;&nbsp;码</label>
+                                <div class="layui-input-block">
+                                    <input id="reg_upwd" name="upwd" type="password" class="layui-input"
+                                           placeholder="请输入密码">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">确认密码</label>
+                                <div class="layui-input-block">
+                                    <input id="reg_rupwd" type="password" class="layui-input"
+                                           placeholder="再次确认密码">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">邮&nbsp;&nbsp;箱</label>
+                                <div class="layui-input-block">
+                                    <input id="email" name="email" type="email" class="layui-input"
+                                           placeholder="请输入邮箱">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <a href="javascript:registerValidate()" class="layui-btn layui-btn-fluid">注册</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+    ];
+    var str = '';
+    var verVal = drawCode();
+
+    function drawCode(str) {
+        var canvas = document.getElementById("verifyCanvas"); //获取HTML端画布
+        var context = canvas.getContext("2d"); //获取画布2D上下文
+        context.fillStyle = "#C3C3C3"; //画布填充色
+        context.fillRect(0, 0, canvas.width, canvas.height); //清空画布
+        context.fillStyle = "white"; //设置字体颜色
+        context.font = "20px Arial"; //设置字体
+        var rand = new Array();
+        var x = new Array();
+        var y = new Array();
+        for (var i = 0; i < 4; i++) {
+            rand.push(rand[i]);
+            rand[i] = nums[Math.floor(Math.random() * nums.length)];
+            x[i] = i * 20 + 10;
+            y[i] = Math.random() * 20 + 20;
+            context.fillText(rand[i], x[i], y[i] - 10);
+        }
+        str = rand.join('').toUpperCase();
+
+        convertCanvasToImage(canvas);
+        return str;
+    }
+
+    // 绘制图片
+    function convertCanvasToImage(canvas) {
+        document.getElementById("verifyCanvas").style.display = "none";
+        var image = document.getElementById("img_vcode");
+        image.src = canvas.toDataURL("image/png");
+        return image;
+    }
+
+    function resetCode() {
+        $('#verifyCanvas').remove();
+        $('#img_vcode').before('<canvas width="150" height="35" id="verifyCanvas"></canvas>');
+        verVal = drawCode();
+    }
+
+    $(function () {
+        resetCode();
+    });
+</script>

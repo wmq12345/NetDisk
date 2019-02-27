@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qian.mapper.User">
+    <select id="userStatusAnalysis" resultType="map">
+      SELECT case `status`
+      when 1 then
+        '激活'
+      else
+        '未激活'
+      end as `status`,count(*) as count from user_info group by `status`
+      </select>
+    <select id="findUserInfoById" parameterType="string" resultType="Map">
+       select a.user_id,a.email,a.username,b.runame,b.gender,b.birthday,b.address,b.remark,b.telephone
+from user_info a inner join user_detail_info b on a.user_id = b.user_id WHERE a.user_id=#{user_id};
+    </select>
+    <select id="login" parameterType="map" resultType="map">
+        select * from user_info where username=#{uname} and `password`=#{upwd}
+    </select>
+    <insert id="register" parameterType="map">
+        insert into user_info(username,`password`,email,register_time,status)values(#{uname},#{upwd},#{email},now(),0)
+       update user_info set status=1 where username=#{uname}
+    </insert>
+    <select id="validateOldPwd" parameterType="map" resultType="map">
+        select * from user_info where user_id=#{userid} and `password` = #{oldpwd}
+    </select>
+    <update id="updateOldPwd" parameterType="map">
+        update user_info set `password`=#{newpwd} where user_id = #{userid}
+    </update>
+    <update id="updateUserPhoto" parameterType="map">
+        update user_info set photo=#{photopath} where user_id=#{userid}
+    </update>
+    <update id="updateUserInfo" parameterType="com.qian.pojo.UserInfo">
+        update user_detail_info set runame=#{runame},gender=#{gender},birthday=#{birthday},
+        address=#{address},email=#{email},telephone=#{telephone},remark=#{desc} where user_id=#{user_id}
+    </update>
+</mapper>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="node_modules/layui-src/dist/css/layui.css"/>
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/layui-src/dist/layui.all.js"></script>
+    <script>
+        // 页面一加载就执行的函数
+        $(function () {
+            layui.use("table", function () {
+                //alert(row);
+                layui.table.render({
+                    elem: "#user_table",
+                    url: "admin/getAllUsers.do",
+                    title: "用户列表",
+                    // where: {
+                    //     "user_id": sessionStorage.getItem("user_id")
+                    // },
+                    page: true,
+                    id: "id",
+                    loading: true,
+                    skin: "row",
+                    limit: 5,
+                    size: "md",
+                    even: true,
+                    toolbar: '#tb_toolbar',
+                    cols: [[
+                        {field: "user_id", title: "ID", fixed: true, type: "checkbox"},
+                        {
+                            field: "username", title: "用户名", width: 150,
+                            templet: function (row) {
+                                return row.username;
+                            }
+                        },
+                        {
+                            field: "password", title: "密码", width: 150,
+                            templet: function (row) {
+                                return row.password;
+                            }
+                        },
+                        {
+                            field: " isAdmin", title: "是否为管理员", sort: true, width: 120,
+                            templet: function (row) {
+                                return row.isAdmin;
+                            }
+                        },
+                        {
+                            field: "email", title: "上传时间", width: 200,
+                            templet: function (row) {
+                                return row.email;
+                            }
+                        },
+                        // {
+                        //     field: "status", title: "状态", width: 120,
+                        //     templet: function (row) {
+                        //         if (row.status == 1)
+                        //             return "<a href='javascript:changeFileStatus(" + row.file_status + "," + row.file_id + ")'> " +
+                        //                 "<input onchange='changeFileStatus()' type='checkbox' name='switch' lay-skin='switch' lay-text='共享|私有' value='1' " +
+                        //                 "checked></a>";
+                        //         else
+                        //             return "<a href='javascript:changeFileStatus(" + row.file_status + "," + row.file_id + ")'>" + "<input type='checkbox' name='switch' lay-skin='switch' lay-text='共享|私有' value='0' ></a>";
+                        //     }
+                        // },
+                        {
+                            field: "register_time", title: "注册时间", width: 130,
+                            templet: function (row) {
+                                return row.register_time;
+                            }
+                        },
+                        {
+                            field: "file_id", title: "操作", width: 160
+                            // templet: function (row) {
+                            //     return "<a href='' title='删除'><span class='layui-icon layui-icon-delete'></span></a> &nbsp;&nbsp;" +
+                            //         "<a href='file/downloadFile_1.do?filePath=" + row.file_path + "&fileName=" + row.file_name + "&file_id=" + row.file_id + "' title='删除' ><span class='layui-icon layui-icon-download-circle'></span></a>";
+                            // }
+                        }
+                    ]]
+                });
+                // layui.table.on("toolbar(filetable)", function (rs) {
+                //     var event = rs.event;
+                //     if (event == "add") {
+                //
+                //     } else if (event == "delete") {
+                //         var sdate = layui.table.checkStatus("id").data;
+                //         var arr = new Array();
+                //         $.each(sdate, function (index, row, rs) {
+                //             arr[index] = row.file_id;
+                //         });
+                //         if (arr.length == 0) {
+                //             layer.msg("请选择一行数据");
+                //         } else {
+                //             layer.confirm('确认是否删除?', {
+                //                     btn: ['确定', '取消']
+                //                 }, function () {
+                //                     $.ajax({
+                //                         url: "file/deleteFileById.do",
+                //                         data: {"file_id":JSON.stringify(arr)},
+                //                         method: "get",
+                //                         success: function (data) {
+                //                             if (data > 0) {
+                //                                 layer.msg('删除成功', {icon: 1});
+                //                             } else {
+                //                                 layer.msg('删除失败', {icon: 2});
+                //                             }
+                //                         }, error: function () {
+                //                             layer.msg("请求服务器失败", {icon: 1})
+                //                         }
+                //                     });
+                //                 }
+                //             )
+                //         }
+                //     }
+                // });
+            })
+        });
+        //获取所有用户信息
+
+    </script>
+</head>
+<body>
+<table id="user_table" lay-filter="filetable"></table>
+</body>
+</html>
+<script type="text/html" id="tb_toolbar">
+    <button class="layui-btn layui-btn-normal" lay-event="add" style="background-color: #009688">
+        <span class="layui-icon layui-icon-add-1"></span>添加
+    </button>
+    <button class="layui-btn layui-btn-normal" lay-event="edit" style="background-color: #009688">
+        <span class="layui-icon layui-icon-edit"></span>修改
+    </button>
+    <button class="layui-btn layui-btn-normal" lay-event="delete" style="background-color: #009688">
+        <span class="layui-icon layui-icon-delete"></span>删除
+    </button>
+</script>

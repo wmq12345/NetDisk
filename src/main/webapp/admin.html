@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="node_modules/layui-src/dist/css/layui.css">
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/layui-src/dist/layui.all.js"></script>
+    <script type="text/javascript">
+        var temp = 0;
+        $(function () {
+            var uname = sessionStorage.getItem("uname");
+            var user_id = sessionStorage.getItem("user_id");
+            var photo = sessionStorage.getItem("photo");
+            $("userPhoto").attr("src", photo);//这句话是给img标记src
+            $("#loginUserName").html(uname);
+            if (temp == 0)
+
+                $("#mainContent").load("fileManager.html");
+        });
+
+        function exit() {
+            layer.confirm("确认真的要退出吗？", {title: "确认提示", btn: ['残忍离开', '继续使用']}, function (index) {
+                sessionStorage.clear();
+                window.location.href = "index2.html";
+            });
+        }
+
+        function showAnalysis() {
+            $("#mainContent").load("analysis.html");
+        }
+
+        function fileManager(fileType, isShare) {
+            sessionStorage.setItem("fileType", fileType);
+            sessionStorage.setItem("isShare", isShare);
+            $("#mainContent").load("fileManager.html");
+        }
+
+        function redirectUpdataUpwd() {
+            $("#mainContent").load("updateUpwd.html");
+        }
+
+        function personCenter() {
+            $("#mainContent").load("personCenter.html");
+        }
+
+        function showUploadFile() {
+            layer.open({
+                type: 1,
+                title: "上传文件",
+                area:['600px','300px'],
+                content: $("#fileListDiv"),
+                btn: ["关闭"],
+                btn1: function () {
+                    layer.closeAll();
+                }
+            })
+        }
+    </script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">网络云盘后台布局</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="javascript:fileManager()">文件管理</a></li>
+            <li class="layui-nav-item"><a href="">用户管理</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">消息管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:showUploadFile();">上传文件</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;" id="name">
+                    <img id="userPhoto" class="layui-nav-img" src="myphoto/myphoto.jpg">
+                    <span id="loginUserName"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javaScript:personCenter()">基本资料</a></dd>
+                    <dd><a href="javaScript:redirectUpdataUpwd()">修改密码</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:exit();">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="">我的私有文件</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:fileManager('isVideo',0);"><span
+                                class="layui-icon layui-icon-video"></span>&nbsp;&nbsp;&nbsp;视频</a>
+                        </dd>
+                        <dd><a href="javascript:fileManager('isMusic',0);"><span
+                                class="layui-icon layui-icon-picture"></span>&nbsp;&nbsp;&nbsp;音乐</a>
+                        </dd>
+                        <dd><a href="javascript:fileManager('isPicture',0);"><span
+                                class="layui-icon layui-icon-headset"></span>&nbsp;&nbsp;&nbsp;图片</a>
+                        </dd>
+                        <dd><a href="javascript:fileManager('isDocument',0);"><span
+                                class="layui-icon layui-icon-file"></span>&nbsp;&nbsp;&nbsp;文档</a>
+                        </dd>
+
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">共享文件</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:fileManager('isVideo',1);"><span
+                                class="layui-icon layui-icon-video"></span>&nbsp;&nbsp;&nbsp;视频</a>
+                        </dd>
+                        <dd><a href="javascript:fileManager('isMusic',1);"><span
+                                class="layui-icon layui-icon-picture"></span>&nbsp;&nbsp;&nbsp;音乐</a>
+                        </dd>
+                        <dd><a href="javascript:fileManager('isPicture',1);"><span
+                                class="layui-icon layui-icon-headset"></span>&nbsp;&nbsp;&nbsp;图片</a>
+                        </dd>
+                        <dd><a href="javascript:fileManager('isDocument',1);"><span
+                                class="layui-icon layui-icon-file"></span>&nbsp;&nbsp;&nbsp;文档</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">个人统计分析</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:showAnalysis();">统计分析</a></dd>
+                        <dd><a href="javascript:;">报表打印</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">用户管理</a></li>
+                <li class="layui-nav-item"><a href=";">退出系统</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="fileListDiv" class="layui-upload" style="display: none">
+        <button type="button" class="layui-btn layui-btn-primary" id="selectFile">
+            选择文件上传
+        </button>
+        <button type="button" class="layui-btn layui-btn-normal" id="uploadFile">
+            上传
+        </button>
+        <div class="layui-upload-list">
+            <table class="layui-table layui-table-hover">
+                <thead>
+                    <tr>
+                        <th>文件名称</th>
+                        <th>文件大小</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="fileList"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;" id="mainContent">内容主体区域</div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script>
+    $(function () {
+        layui.use("upload",function () {
+            var $ = layui.jquery;
+            var upload = layui.upload;
+            var demoListView = $('#fileList')
+                ,uploadListIns = upload.render({
+                elem: '#selectFile'
+                ,url: '/upload/'
+
+                ,accept: fileType
+                ,multiple: true
+                ,auto: false
+                ,bindAction: '#uploadFile'
+                ,choose: function(obj){
+                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    //读取本地文件
+                    obj.preview(function(index, file, result){
+                        var tr = $(['<tr id="upload-'+ index +'">'
+                            ,'<td>'+ file.name +'</td>'
+                            ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                            ,'<td>等待上传</td>'
+                            ,'<td>'
+                            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                            ,'</td>'
+                            ,'</tr>'].join(''));
+
+                        //单个重传
+                        tr.find('.demo-reload').on('click', function(){
+                            obj.upload(index, file);
+                        });
+                        //删除
+                        tr.find('.demo-delete').on('click', function(){
+                            delete files[index]; //删除对应的文件
+                            tr.remove();
+                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        });
+                        demoListView.append(tr);
+                    });
+                }
+                ,done: function(res, index, upload){
+                    if(res.code == 0){ //上传成功
+                        var tr = demoListView.find('tr#upload-'+ index)
+                            ,tds = tr.children();
+                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                        tds.eq(3).html(''); //清空操作
+                        return delete this.files[index]; //删除文件队列已经上传成功的文件
+                    }
+                    this.error(index, upload);
+                }
+                ,error: function(index, upload){
+                    var tr = demoListView.find('tr#upload-'+ index)
+                        ,tds = tr.children();
+                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                }
+            });
+        })
+    });
+</script>
+</body>
+</html>
+

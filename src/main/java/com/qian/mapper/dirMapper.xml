@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qian.mapper.Dir">
+    <select id="findUserFile" resultType="map" parameterType="String">
+        select * from dir_inf where dir_user_id=#{user_id}
+    </select>
+<select id="dirAnalysis" parameterType="String" resultType="map">
+    select a.dir_name,b.dir_name as `name` from dir_inf a inner join dir_inf b on a.dir_id
+     =b.parent_dir where a.dir_user_id = #{user_id}
+</select>
+</mapper>
