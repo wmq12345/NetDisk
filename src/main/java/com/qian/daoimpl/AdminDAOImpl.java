@@ -20,13 +20,11 @@ public class AdminDAOImpl implements IAdminDAO {
         try {
             SqlSession sqlSession = sqlSessionFactoryBean.openSession();
             String sql = "com.qian.mapper.Admin.findAllUsers";
-            String sql_count = "com.qian.Admin.findRSCount";
+            String sql_count = "com.qian.mapper.Admin.findRSCount";
             Map map = new HashMap();
             map.put("page", (page - 1) * limit);
             map.put("limit", limit);
-            System.out.println(map);
             List<Map<String, Object>> objects = sqlSession.selectList(sql, map);
-            System.out.println(objects);
             Map<String, Object> rscount = sqlSession.selectOne(sql_count, map);
             objects.add(rscount);
             return objects;
@@ -35,5 +33,48 @@ public class AdminDAOImpl implements IAdminDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public int changeActiveStatus(Map map) {
+        try {
+            SqlSession sqlSession = sqlSessionFactoryBean.openSession();
+            String sql = "com.qian.mapper.Admin.changeActiveStatus";
+            int update = sqlSession.update(sql, map);
+            return update;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int changeAdminStatus(Map map) {
+        try {
+            SqlSession sqlSession = sqlSessionFactoryBean.openSession();
+            String sql = "com.qian.mapper.Admin.changeAdminStatus";
+            int update = sqlSession.update(sql, map);
+            return update;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int deleteFileById( List<String> strings) {
+        try {
+            SqlSession sqlSession = sqlSessionFactoryBean.openSession();
+            String sql = "com.qian.mapper.Admin.deleteUserById";
+            int i = sqlSession.delete(sql, strings);
+            sqlSession.commit(true);
+            return i;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

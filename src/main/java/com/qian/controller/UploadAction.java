@@ -1,5 +1,6 @@
 package com.qian.controller;
 
+import com.qian.service.IDirService;
 import com.qian.service.IFileService;
 import com.qian.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,13 @@ public class UploadAction {
     IUserService userServiceImpl;
     @Autowired
     IFileService fileServiceImpl;
+    @Autowired
+    IDirService iDirService;
+    @RequestMapping(value = "/uploadSelectFile.do", method = RequestMethod.POST)
+    @ResponseBody
+    public Map uploadSelectFile(@RequestParam("file") MultipartFile file,String file_type){
+        return null;
+    }
     @RequestMapping(value = "/downloadFile_1", method = RequestMethod.GET)
     @ResponseBody
     public String downloadFile(int file_id,String filePath, String fileName, HttpServletRequest request, HttpServletResponse response) {
