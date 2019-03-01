@@ -18,9 +18,9 @@
                 },
                 success:function (data) {
                     if(data == 1 && file_status==1)
-                        layer.msg("设置成功");
+                        layer.msg("文件已经共享");
                     else(data ==1 && file_status==0)
-                    layer.msg("设置成功");
+                    layer.msg("文件为私密");
                 },error:function(){
                     layer.msg("请求服务器失败")
                 }

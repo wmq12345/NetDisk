@@ -10,4 +10,9 @@
     select a.dir_name,b.dir_name as `name` from dir_inf a inner join dir_inf b on a.dir_id
      =b.parent_dir where a.dir_user_id = #{user_id}
 </select>
+<select id="radarAnalysis" parameterType="String" resultType="map">
+    select file_name,downloadCount from file_inf where file_upload_user_id= #{user_id}
+
+</select>
+
 </mapper>

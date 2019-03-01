@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 @Service
-
 public class DirServiceImpl implements IDirService {
     @Autowired
     IDirDAO iDirDAO;
@@ -31,9 +30,4 @@ public class DirServiceImpl implements IDirService {
     }
 
 
-
-    @Override
-    public Map findFilePathByDirId(String dir_id) {
-        return iDirDAO.findFilePathByDirId(dir_id);
-    }
 }
