@@ -18,11 +18,6 @@ public class AdminAction {
     @RequestMapping(value = "/getAllUsers.do", method = RequestMethod.GET)
     @ResponseBody
     public List<Map> findAllUsers(){
-        List<Map> allUsers = adminServiceImpl.findAllUsers();
-        //System.out.println(allUsers);
-        return allUsers;
-
-
-        //gfd
+            return null;
     }
 }

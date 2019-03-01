@@ -15,6 +15,7 @@ public class DirAction {
     @Autowired
     IDirService iDirService;
 
+
     @RequestMapping("/findAllDirByUserId.do")
     @ResponseBody
     public Map findAllDirByUserId(String user_id) {
@@ -27,6 +28,14 @@ public class DirAction {
         map.put("is", true);
         map.put("tip", "查询成功");
         return map;
+    }
+    //雷达图
+    @RequestMapping("/radarAnalysis.do")
+    @ResponseBody
+    public List<Map> radarAnalysis(String user_id) {
+        List<Map> maps = iDirService.radarAnalysis(user_id);
+        System.out.println(maps);
+        return maps;
     }
 
     @RequestMapping("/dirAnalysis.do")

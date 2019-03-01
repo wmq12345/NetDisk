@@ -11,27 +11,34 @@
     <script>
         //饼图
         function showBar() {
+            // 初始化echarts实例
             $.get("userAnalysis.do",function (data,status) {
                 var jsonObj=JSON.parse(data);
                 var mychart=echarts.init(document.getElementById("bar"));
+                // 指定图表的配置项和数据
                 var option = {
                     title: {
                         text: '统计用户状态'
                     },
+                    //设置提示
                     tooltip: {},
+                    //设置图例
                     legend: {
                         data:['激活用户数量']
                     },
+                    //设置坐标轴
                     xAxis: {
                         data: jsonObj.status
                     },
                     yAxis: {},
+                    //设置数据
                     series: [{
                         name: '销量',
                         type: 'pie',
                         data: jsonObj.count
                     }]
                 };
+                // 使用刚指定的配置项和数据显示图表。
                 mychart.setOption(option);
             });
         }
@@ -82,7 +89,53 @@
         }
         //
          function showLine(){}
-         function showRadar(){}
+         function showRadar(){
+             $.get('dir/radarAnalysis.do', {"user_id":sessionStorage.getItem("user_id")},function (result) {
+                 var data=JSON.parse(result);
+                 var mychart=echarts.init(document.getElementById("tree"));
+                 option = {
+                     title: {
+                         text: '雷达图'
+                     },
+                     tooltip: {
+                         trigger: 'axis'
+                     },
+                     legend: {
+                         x: 'center',
+                         data:[]
+                     },
+                     radar: [
+                         {
+                             indicator: (function (){
+                                 var res = [];
+                                 for (var i = 1; i <= 12; i++) {
+                                     res.push({text:i+'月',max:100});
+                                 }
+                                 return res;
+                             })(),
+                             center: ['75%','40%'],
+                             radius: 80
+                         }
+                     ],
+                     series: [
+
+                         {
+                             type: 'radar',
+                             radarIndex: 2,
+                             itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                             data: [
+                                ,
+                                 {
+                                     name:'蒸发量',
+                                     value:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 35.6, 62.2, 32.6, 20.0, 6.4, 3.3]
+                                 }
+                             ]
+                         }
+                     ]
+                 };
+                 mychart.setOption(option);
+             });
+         }
         function showPie(){}
 
     </script>
@@ -109,9 +162,19 @@
             <div id="tree" style="width: 100%;height: 500px">
 
             </div></div>
-        <div class="layui-tab-item">ccc</div>
-        <div class="layui-tab-item">ddd</div>
-        <div class="layui-tab-item">ddd</div>
+        <div class="layui-tab-item">
+            <div id="line" style="width: 100%;height: 500px">
+
+            </div></div>
+        <div class="layui-tab-item">
+            <div id="radar" style="width: 100%;height: 500px">
+
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div id="pie" style="width: 100%;height: 500px">
+
+        </div></div>
     </div>
 </div>
 </body>

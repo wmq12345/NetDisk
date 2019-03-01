@@ -31,12 +31,4 @@ public class DirDAOImpl implements IDirDAO {
         sqlSession.commit();
         return list;
     }
-
-    @Override
-    public Map findFilePathByDirId(String dir_id) {
-//        SqlSession sqlSession = sqlSessionFactoryBean.openSession(true);
-//        String sql = "com.qian.mapper.Dir.findFilePath";
-//        Map list= sqlSession.selectList(sql,dir_id);
-        return null;
-    }
 }

@@ -6,5 +6,6 @@ import java.util.Map;
 public interface IDirDAO {
     List<Map> findAllDir(String user_id);
     List<Map> dirAnalysis(String user_id);
+    List<Map> radarAnalysis(String user_id);
     Map findFilePathByDirId(String dir_id);
 }

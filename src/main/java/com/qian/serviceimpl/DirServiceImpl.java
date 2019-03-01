@@ -25,6 +25,14 @@ public class DirServiceImpl implements IDirService {
     }
 
     @Override
+    public List<Map> radarAnalysis(String user_id) {
+        List<Map> allDir = iDirDAO.dirAnalysis(user_id);
+        return allDir;
+    }
+
+
+
+    @Override
     public Map findFilePathByDirId(String dir_id) {
         return iDirDAO.findFilePathByDirId(dir_id);
     }
