@@ -7,4 +7,6 @@ public interface IDirService {
     List<Map> findAllDirByUserId(String user_id);
     List<Map> dirAnalysis(String user_id);
     List<Map> radarAnalysis(String user_id);
+    List<Map> pieAnalysis(String user_id);
+    List<Map> lineAnalysis(String user_id);
 }

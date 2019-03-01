@@ -14,5 +14,13 @@
     select file_name,downloadCount from file_inf where file_upload_user_id= #{user_id}
 
 </select>
+    <select id="pieAnalysis" parameterType="String" resultType="map">
+    select file_name,downloadCount from file_inf where file_upload_user_id= #{user_id}
+
+</select>
+    <select id="lineAnalysis" parameterType="String" resultType="map">
+    select file_name,downloadCount from file_inf where file_upload_user_id= #{user_id}
+
+</select>
 
 </mapper>

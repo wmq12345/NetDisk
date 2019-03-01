@@ -34,9 +34,27 @@ public class DirAction {
     @ResponseBody
     public List<Map> radarAnalysis(String user_id) {
         List<Map> maps = iDirService.radarAnalysis(user_id);
-        System.out.println(maps);
+        System.out.println("雷达图"+maps);
         return maps;
     }
+    //柱状图
+    @RequestMapping("/pieAnalysis.do")
+    @ResponseBody
+    public List<Map> pieAnalysis(String user_id) {
+        List<Map> maps = iDirService.pieAnalysis(user_id);
+        System.out.println("柱状图"+maps);
+        return maps;
+    }
+
+    //折线图
+    @RequestMapping("/lineAnalysis.do")
+    @ResponseBody
+    public List<Map> lineAnalysis(String user_id) {
+        List<Map> maps = iDirService.lineAnalysis(user_id);
+        System.out.println("折线图"+maps);
+        return maps;
+    }
+
 
     @RequestMapping("/dirAnalysis.do")
     @ResponseBody

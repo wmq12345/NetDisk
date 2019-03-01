@@ -40,4 +40,23 @@ public class DirDAOImpl implements IDirDAO {
         sqlSession.commit();
         return list;
     }
+
+
+    @Override
+    public List<Map> pieAnalysis(String user_id) {
+        SqlSession sqlSession = sqlSessionFactoryBean.openSession(true);
+        String sql = "com.qian.mapper.Dir.pieAnalysis";
+        List<Map> list= sqlSession.selectList(sql,user_id);
+        sqlSession.commit();
+        return list;
+    }
+
+    @Override
+    public List<Map> lineAnalysis(String user_id) {
+        SqlSession sqlSession = sqlSessionFactoryBean.openSession(true);
+        String sql = "com.qian.mapper.Dir.lineAnalysis";
+        List<Map> list= sqlSession.selectList(sql,user_id);
+        sqlSession.commit();
+        return list;
+    }
 }

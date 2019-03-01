@@ -25,7 +25,19 @@ public class DirServiceImpl implements IDirService {
 
     @Override
     public List<Map> radarAnalysis(String user_id) {
-        List<Map> allDir = iDirDAO.dirAnalysis(user_id);
+        List<Map> allDir = iDirDAO.radarAnalysis(user_id);
+        return allDir;
+    }
+//这是柱状图
+    @Override
+    public List<Map>pieAnalysis(String user_id) {
+        List<Map> allDir = iDirDAO.pieAnalysis(user_id);
+        return allDir;
+    }
+
+    @Override
+    public List<Map> lineAnalysis(String user_id) {
+        List<Map> allDir = iDirDAO.lineAnalysis(user_id);
         return allDir;
     }
 
