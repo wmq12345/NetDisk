@@ -10,4 +10,7 @@
     select a.dir_name,b.dir_name as `name` from dir_inf a inner join dir_inf b on a.dir_id
      =b.parent_dir where a.dir_user_id = #{user_id}
 </select>
+    <select id="findFilePath" parameterType="String" resultType="map">
+        select concat(dir_path,dir_name) as filepath from dir_inf WHERE dir_id=#{dir_id}
+    </select>
 </mapper>

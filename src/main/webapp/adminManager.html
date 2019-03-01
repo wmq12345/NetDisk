@@ -8,6 +8,46 @@
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/layui-src/dist/layui.all.js"></script>
     <script>
+        //设置用户激活状态
+        function setActiveStatus(status,user_id){
+            $.ajax({
+                url:"admin/updateActiveStatus.do",
+                method:"post",
+                data:{
+                    "user_id":user_id,
+                    "status":status
+                },
+                success:function (data) {
+                    if(data == 1)
+                        layer.msg("设置成功");
+                    else
+                        layer.msg("设置失败");
+                },error:function(){
+                    layer.msg("请求服务器失败")
+                }
+            })
+        }
+        //设置为管理员
+        function setAdminStatus(user_id,isAdmin){
+            $.ajax({
+                url:"admin/updateAdminStatus.do",
+                method:"get",
+                data:{
+                    "user_id":user_id,
+                    "isAdmin":isAdmin
+                },
+                success:function (data) {
+                    if(data==1){
+                        layer.msg("设置成功")
+                    }else{
+                        layer.msg("设置失败")
+                    }
+                },error:function () {
+                    layer.msg("请求服务器失败")
+                }
+            })
+        }
+
         // 页面一加载就执行的函数
         $(function () {
             layui.use("table", function () {
@@ -44,84 +84,100 @@
                         {
                             field: " isAdmin", title: "是否为管理员", sort: true, width: 120,
                             templet: function (row) {
-                                return row.isAdmin;
+                                if (row.isAdmin == 1)
+                                    return "<a href='javascript:setAdminStatus(" + row.user_id + "," + row.isAdmin + ")'> " +
+                                        "<input type='checkbox' name='switch' lay-skin='switch' lay-text='管理员|用户' value='1' checked></a>";
+                                else
+                                    return "<a href='javascript:setAdminStatus(" + row.user_id + "," + row.isAdmin + ")'>" + "<input type='checkbox' name='switch' lay-skin='switch' lay-text='管理员|用户' value='0' ></a>";
                             }
                         },
                         {
-                            field: "email", title: "上传时间", width: 200,
+                            field: "email", title: "注册邮箱", width: 200,
                             templet: function (row) {
                                 return row.email;
                             }
                         },
-                        // {
-                        //     field: "status", title: "状态", width: 120,
-                        //     templet: function (row) {
-                        //         if (row.status == 1)
-                        //             return "<a href='javascript:changeFileStatus(" + row.file_status + "," + row.file_id + ")'> " +
-                        //                 "<input onchange='changeFileStatus()' type='checkbox' name='switch' lay-skin='switch' lay-text='共享|私有' value='1' " +
-                        //                 "checked></a>";
-                        //         else
-                        //             return "<a href='javascript:changeFileStatus(" + row.file_status + "," + row.file_id + ")'>" + "<input type='checkbox' name='switch' lay-skin='switch' lay-text='共享|私有' value='0' ></a>";
-                        //     }
-                        // },
                         {
-                            field: "register_time", title: "注册时间", width: 130,
+                            field: "register_time", title: "注册时间", width: 200,
                             templet: function (row) {
-                                return row.register_time;
+                                return new Date(row.register_time).toLocaleString();
                             }
                         },
                         {
-                            field: "file_id", title: "操作", width: 160
-                            // templet: function (row) {
-                            //     return "<a href='' title='删除'><span class='layui-icon layui-icon-delete'></span></a> &nbsp;&nbsp;" +
-                            //         "<a href='file/downloadFile_1.do?filePath=" + row.file_path + "&fileName=" + row.file_name + "&file_id=" + row.file_id + "' title='删除' ><span class='layui-icon layui-icon-download-circle'></span></a>";
-                            // }
+                            field: "status", title: "激活", width: 120,
+                            templet: function (row) {
+                                if (row.status == 1)
+                                    return "<a href='javascript:setActiveStatus(" + row.status + "," + row.user_id + ")'> " +
+                                        //"<input type='checkbox' name='switch' lay-skin='switch' lay-text='已激活|未激活' value='1' checked></a>";
+                                        "<input name='status' title='&nbsp;&nbsp;&nbsp;&nbsp;激活' type='checkbox' checked lay-skin='primary'  value='1'></a>";
+                                else
+                                    return "<a href='javascript:setActiveStatus(" + row.status + "," + row.user_id + ")'> " +
+                                        "<input name='status' title='未激活' type='checkbox' lay-skin='primary'  value='0'></a>";
+                            }
+                        },
+
+                        {
+                            field: "user_id", title: "操作", width: 160,
+                            templet: function (row) {
+                                return "<a href='' title='删除'><span class='layui-icon layui-icon-delete'></span></a> &nbsp;&nbsp;"
+                                    //+"<a href='file/downloadFile_1.do?filePath=" + row.file_path + "&fileName=" + row.file_name + "&file_id=" + row.file_id + "' title='删除' ><span class='layui-icon layui-icon-download-circle'></span></a>";
+                            }
                         }
                     ]]
                 });
-                // layui.table.on("toolbar(filetable)", function (rs) {
-                //     var event = rs.event;
-                //     if (event == "add") {
-                //
-                //     } else if (event == "delete") {
-                //         var sdate = layui.table.checkStatus("id").data;
-                //         var arr = new Array();
-                //         $.each(sdate, function (index, row, rs) {
-                //             arr[index] = row.file_id;
-                //         });
-                //         if (arr.length == 0) {
-                //             layer.msg("请选择一行数据");
-                //         } else {
-                //             layer.confirm('确认是否删除?', {
-                //                     btn: ['确定', '取消']
-                //                 }, function () {
-                //                     $.ajax({
-                //                         url: "file/deleteFileById.do",
-                //                         data: {"file_id":JSON.stringify(arr)},
-                //                         method: "get",
-                //                         success: function (data) {
-                //                             if (data > 0) {
-                //                                 layer.msg('删除成功', {icon: 1});
-                //                             } else {
-                //                                 layer.msg('删除失败', {icon: 2});
-                //                             }
-                //                         }, error: function () {
-                //                             layer.msg("请求服务器失败", {icon: 1})
-                //                         }
-                //                     });
-                //                 }
-                //             )
-                //         }
-                //     }
-                // });
-            })
+
+
+            });
+        });
+
+        layui.table.on("toolbar(usertable)", function (rs) {
+            var event = rs.event;
+            if (event == "add") {
+                layer.msg(event);
+            }
+            if (event == "delete") {
+                var tableselectdate = layui.table.checkStatus("id").data;
+                var arr = new Array();
+                $.each(tableselectdate, function (index, row, rs) {
+                    arr[index] = row.user_id;
+                });
+                if (arr.length == 0) {
+                    layer.msg("请选择一行数据");
+                } else {
+                    layer.confirm('是否要真的删除选中数据？', {
+                        btn: ['确定', '取消'], //按钮
+                        btnAlign: 'c'  //按钮居中显示
+                    }, function () {
+                        $.ajax({
+                            url: "admin/deleteUserById.do",
+                            data: {"user_id": JSON.stringify(arr)},
+                            method: "post",
+                            success: function (data) {
+                                if (data > 0)
+                                    layer.msg("成功删除" + data + "个文件", {icon: 1});
+                                else
+                                    layer.msg('文件删除失败', {icon: 2});
+                                /*数据删除成功后刷新表格*/
+                                layui.table.reload("id", {
+                                    where: {
+                                        "user_id": sessionStorage.getItem("user_id")
+                                    }
+                                });
+                            },
+                            error: function () {
+                                layer.msg('请求服务器失败！', {icon: 1});
+                            }
+                        });
+                    });
+                }
+            }
         });
         //获取所有用户信息
 
     </script>
 </head>
 <body>
-<table id="user_table" lay-filter="filetable"></table>
+<table id="user_table" lay-filter="usertable"></table>
 </body>
 </html>
 <script type="text/html" id="tb_toolbar">
