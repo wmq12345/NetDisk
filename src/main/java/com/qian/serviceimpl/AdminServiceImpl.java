@@ -17,4 +17,39 @@ public class AdminServiceImpl implements IAdminService {
         return adminDAO.findAllUsers(page,limit);
     }
 
+    @Override
+    public int changeActiveStatus(Map map) {
+        return adminDAO.changeActiveStatus(map);
+    }
+
+    @Override
+    public int changeAdminStatus(Map map) {
+        return adminDAO.changeAdminStatus(map);
+    }
+
+    @Override
+    public int deleteFileById(List<String> strings) {
+        return adminDAO.deleteFileById(strings);
+    }
+
+    @Override
+    public int addUserInfo(Map map) {
+        return adminDAO.addUserInfo(map);
+    }
+
+    @Override
+    public Map<String, Object> findUserById(String user_id) {
+        return adminDAO.findUserById(user_id);
+    }
+
+    @Override
+    public int editUserById(Map map) {
+        return adminDAO.editUserById(map);
+    }
+
+    @Override
+    public List<Map<String, Object>> searchUser(String content) {
+        return adminDAO.searchUser(content);
+    }
+
 }

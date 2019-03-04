@@ -66,7 +66,6 @@ public class FileAction {
         System.out.println(file_id);
         String[] split = file_id.substring(1,file_id.length()-1).split(",");
         List<String> strings = Arrays.asList(split);//把数组转换成列表
-        //Map map = (Map) JSON.parse(file_id);
         int i = fileServiceImpl.deleteFileById(strings);
         return i;
     }

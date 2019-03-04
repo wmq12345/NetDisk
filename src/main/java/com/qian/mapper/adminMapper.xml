@@ -12,4 +12,40 @@
     <select id="findRSCount" resultType="map">
         select count(*) as `count` from user_info
     </select>
+    <update id="changeActiveStatus" parameterType="map">
+        <if test="status==1">
+            update user_info set status=0 where user_id=#{user_id}
+        </if>
+        <if test="status==0">
+            update user_info set status=1 where user_id=#{user_id}
+        </if>
+    </update>
+    <update id="changeAdminStatus" parameterType="map">
+        <if test="isAdmin==1">
+            update user_info set isAdmin=0 where user_id=#{user_id}
+        </if>
+        <if test="isAdmin==0">
+            update user_info set isAdmin=1 where user_id=#{user_id}
+        </if>
+    </update>
+    <delete id="deleteUserById" parameterType="java.util.List">
+        delete from user_info where user_id in(
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+    <insert id="addUserInfo" parameterType="map">
+        insert into user_info(username,password,email,register_time,status,isAdmin)values
+         (#{uname},#{pwd},#{email},now(),0,#{role})
+    </insert>
+    <select id="findUserById" resultType="map">
+        select * from user_info where user_id = #{user_id}
+    </select>
+    <update id="editUserById" parameterType="map">
+       update user_info set username=#{uname},`password`=#{pwd},email=#{email},isAdmin=#{isAdmin} where user_id=#{user_id};
+    </update>
+    <select id="searchUser" parameterType="string" resultType="map">
+         select * from user_info where username like "%"#{content}"%"
+    </select>
 </mapper>

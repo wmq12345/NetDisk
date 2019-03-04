@@ -31,6 +31,10 @@
     <servlet-name>springmvc</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
+  <!--<filter>-->
+    <!--<filter-name>encodingFilter</filter-name>-->
+    <!--<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>-->
+  <!--</filter>-->
   <welcome-file-list>
     <welcome-file>index2.html</welcome-file>
   </welcome-file-list>
