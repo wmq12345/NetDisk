@@ -30,8 +30,6 @@
         $(function () {
             getUserFile(1,10);
             layui.table.on("edit(filetable)", function (rs) {
-                //layer.msg(JSON.stringify(rs.data))
-                alert(rs.data);
                 $.ajax({
                     url: "file/updateFileName.do",
                     method: "get",
@@ -44,7 +42,6 @@
                 })
             })
         });
-
         //获取用户文件列表
         function getUserFile(page,pagesize) {
             layui.use("table", function () {
