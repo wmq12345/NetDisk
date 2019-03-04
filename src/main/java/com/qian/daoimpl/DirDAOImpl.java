@@ -33,10 +33,30 @@ public class DirDAOImpl implements IDirDAO {
     }
 
     @Override
-    public Map findFilePathByDirId(String dir_id) {
-//        SqlSession sqlSession = sqlSessionFactoryBean.openSession(true);
-//        String sql = "com.qian.mapper.Dir.findFilePath";
-//        Map list= sqlSession.selectList(sql,dir_id);
-        return null;
+    public List<Map> radarAnalysis(String user_id) {
+        SqlSession sqlSession = sqlSessionFactoryBean.openSession(true);
+        String sql = "com.qian.mapper.Dir.radarAnalysis";
+        List<Map> list= sqlSession.selectList(sql,user_id);
+        sqlSession.commit();
+        return list;
+    }
+
+
+    @Override
+    public List<Map> pieAnalysis(String user_id) {
+        SqlSession sqlSession = sqlSessionFactoryBean.openSession(true);
+        String sql = "com.qian.mapper.Dir.pieAnalysis";
+        List<Map> list= sqlSession.selectList(sql,user_id);
+        sqlSession.commit();
+        return list;
+    }
+
+    @Override
+    public List<Map> lineAnalysis(String user_id) {
+        SqlSession sqlSession = sqlSessionFactoryBean.openSession(true);
+        String sql = "com.qian.mapper.Dir.lineAnalysis";
+        List<Map> list= sqlSession.selectList(sql,user_id);
+        sqlSession.commit();
+        return list;
     }
 }

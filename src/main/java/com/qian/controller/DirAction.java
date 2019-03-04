@@ -15,6 +15,7 @@ public class DirAction {
     @Autowired
     IDirService iDirService;
 
+
     @RequestMapping("/findAllDirByUserId.do")
     @ResponseBody
     public Map findAllDirByUserId(String user_id) {
@@ -28,6 +29,32 @@ public class DirAction {
         map.put("tip", "查询成功");
         return map;
     }
+    //雷达图
+    @RequestMapping("/radarAnalysis.do")
+    @ResponseBody
+    public List<Map> radarAnalysis(String user_id) {
+        List<Map> maps = iDirService.radarAnalysis(user_id);
+        System.out.println("雷达图"+maps);
+        return maps;
+    }
+    //柱状图
+    @RequestMapping("/pieAnalysis.do")
+    @ResponseBody
+    public List<Map> pieAnalysis(String user_id) {
+        List<Map> maps = iDirService.pieAnalysis(user_id);
+        System.out.println("柱状图"+maps);
+        return maps;
+    }
+
+    //折线图
+    @RequestMapping("/lineAnalysis.do")
+    @ResponseBody
+    public List<Map> lineAnalysis(String user_id) {
+        List<Map> maps = iDirService.lineAnalysis(user_id);
+        System.out.println("折线图"+maps);
+        return maps;
+    }
+
 
     @RequestMapping("/dirAnalysis.do")
     @ResponseBody

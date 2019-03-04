@@ -20,11 +20,13 @@ public class AdminDAOImpl implements IAdminDAO {
         try {
             SqlSession sqlSession = sqlSessionFactoryBean.openSession();
             String sql = "com.qian.mapper.Admin.findAllUsers";
-            String sql_count = "com.qian.mapper.Admin.findRSCount";
+            String sql_count = "com.qian.Admin.findRSCount";
             Map map = new HashMap();
             map.put("page", (page - 1) * limit);
             map.put("limit", limit);
+            System.out.println(map);
             List<Map<String, Object>> objects = sqlSession.selectList(sql, map);
+            System.out.println(objects);
             Map<String, Object> rscount = sqlSession.selectOne(sql_count, map);
             objects.add(rscount);
             return objects;

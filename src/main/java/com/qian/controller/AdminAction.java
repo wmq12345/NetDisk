@@ -18,6 +18,8 @@ public class AdminAction {
     IAdminService adminServiceImpl;
     @RequestMapping(value = "/getAllUsers.do", method = RequestMethod.GET)
     @ResponseBody
+    public List<Map> findAllUsers(){
+            return null;
     public Map<String, Object> findAllUsers(Integer page, Integer limit){
         List<Map<String,Object>> allUsers = adminServiceImpl.findAllUsers(page,limit);
         int count = Integer.parseInt(allUsers.get(allUsers.size()-1).get("count").toString());
