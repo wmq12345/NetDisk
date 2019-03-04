@@ -77,4 +77,65 @@ public class AdminDAOImpl implements IAdminDAO {
         }
         return 0;
     }
+
+    @Override
+    public int addUserInfo(Map map) {
+        try {
+            SqlSession sqlSession = sqlSessionFactoryBean.openSession();
+            String sql = "com.qian.mapper.Admin.addUserInfo";
+            int i = sqlSession.insert(sql, map);
+            sqlSession.commit(true);
+            return i;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public Map<String, Object> findUserById(String user_id) {
+        try {
+            SqlSession sqlSession = sqlSessionFactoryBean.openSession();
+            String sql = "com.qian.mapper.Admin.findUserById";
+            Map<String, Object> i = sqlSession.selectOne(sql,user_id);
+            sqlSession.commit(true);
+            return i;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public int editUserById(Map map) {
+        try {
+            SqlSession sqlSession = sqlSessionFactoryBean.openSession();
+            String sql = "com.qian.mapper.Admin.editUserById";
+            int update = sqlSession.update(sql, map);
+            sqlSession.commit(true);
+            return update;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public List<Map<String, Object>> searchUser(String content) {
+        try {
+            SqlSession sqlSession = sqlSessionFactoryBean.openSession();
+            String sql = "com.qian.mapper.Admin.searchUser";
+            Map map = new HashMap();
+            map.put("content", content);
+            List<Map<String, Object>> objects = sqlSession.selectList(sql, map);
+            return objects;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

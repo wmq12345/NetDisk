@@ -35,4 +35,17 @@
         </foreach>
         )
     </delete>
+    <insert id="addUserInfo" parameterType="map">
+        insert into user_info(username,password,email,register_time,status,isAdmin)values
+         (#{uname},#{pwd},#{email},now(),0,#{role})
+    </insert>
+    <select id="findUserById" resultType="map">
+        select * from user_info where user_id = #{user_id}
+    </select>
+    <update id="editUserById" parameterType="map">
+       update user_info set username=#{uname},`password`=#{pwd},email=#{email},isAdmin=#{isAdmin} where user_id=#{user_id};
+    </update>
+    <select id="searchUser" parameterType="string" resultType="map">
+         select * from user_info where username like "%"#{content}"%"
+    </select>
 </mapper>

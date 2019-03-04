@@ -25,4 +25,7 @@
         <property name="defaultEncoding" value="utf-8"></property>
         <property name="maxUploadSize" value="20971520"></property>
     </bean>
+    <!--<mvc:interceptors>-->
+
+    <!--</mvc:interceptors>-->
 </beans>
